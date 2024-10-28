@@ -24,35 +24,8 @@ python3 main.py --scenario=wifi_on --ip=192.168.1.2
 
 ### Step 2: using traffic control command to limit bandwidth
 
-Add interface wlan0
-```bash
-sudo tc qdisc add dev wlan0 root handle 5:0 hfsc default 1
-```
 
-Set bandwidth limit, start from 30Mbit/sec to 35Mbit/sec
-```bash
-sudo tc class add dev wlan0 parent 5:0 classid 5:1 hfsc sc rate 30Mbit ul rate 35Mbit
-```
-
-Set packet loss probability at 0.5%, 50% next step loss probability, set delay 15+-1.5ms using distribution
-```bash
-sudo tc qdisc add dev wlan0 parent 5:1 netem loss 0.5% 50% delay 15ms 1.5ms 75%
-sudo tc qdisc add dev wlan0 parent 5:1 netem loss 0.5% 50% delay 15ms 1.5ms distribution normal
-sudo tc qdisc add dev wlan0 parent 5:1 netem loss 0.5% 50% delay 15ms 1.5ms distribution pareto
-sudo tc qdisc add dev wlan0 parent 5:1 netem loss 0.5% 50% delay 15ms 1.5ms distribution paretonormal
-```
-
-Show current status
-```bash
-sudo tc qdisc show dev wlan0
-```
-
-Reset to default
-```bash
-sudo tc qdisc del dev wlan0 root
-```
-
-In short, in both rasberry pi, run
+In both rasberry pi, run
 ```bash
 python3 main.py --scenario=tc_off
 python3 main.py --scenario=tc_on
