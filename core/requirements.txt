@@ -1,0 +1,9 @@
+opencv-python
+PyXAB
+numpy
+scipy
+pandas
+matplotlib
+statsmodels
+scikit-learn
+japanize_matplotlib
